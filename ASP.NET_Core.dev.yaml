@@ -1,16 +1,38 @@
 services:
-  docker_mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  # docker_mssql:
+    # image: mcr.microsoft.com/mssql/server:2022-latest
+    # ports:
+      # - "1435:1433"
+    # environment:
+      # - SA_PASSWORD=Wc@27972822
+      # - ACCEPT_EULA=Y
+    # restart: always
+    # networks:
+      # - mynet
+      
+  docker_mysql:
+    image: mysql:latest
     ports:
-      - "1435:1433"
+      - "3309:3306"
     environment:
-      - SA_PASSWORD=Wc@27972822
-      - ACCEPT_EULA=Y
+      - MYSQL_ROOT_PASSWORD=w27972822
     restart: always
     networks:
       - mynet
 
-  asp.net_core:
+  # asp.net_core_mssql:
+    # build:
+      # context: ./ASP.NET_Core
+      # dockerfile: Dockerfile
+    # ports:
+      # - "90:8080"
+    # restart: always
+    # networks:
+      # - mynet
+    # depends_on:
+      # - docker_mssql
+      
+  asp.net_core_mysql:
     build:
       context: ./ASP.NET_Core
       dockerfile: Dockerfile
@@ -20,7 +42,7 @@ services:
     networks:
       - mynet
     depends_on:
-      - docker_mssql
+      - docker_mysql
 
 networks:
   mynet:
